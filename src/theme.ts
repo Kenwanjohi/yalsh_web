@@ -6,4 +6,11 @@ export const theme = extendTheme({
     heading: fonts.poppins.style.fontFamily,
     body: fonts.mono.style.fontFamily,
   },
+  styles: {
+    global: {
+      body: {
+        fontSize: "sm",
+      },
+    },
+  }
 });
