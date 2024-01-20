@@ -81,12 +81,7 @@ const RegisterForm = () => {
   return (
     <Box width={["100%", "80%", "60%"]}>
       <form onSubmit={handleSubmit} style={{ maxWidth: "100%" }}>
-        <FormControl
-          id="username"
-          isRequired
-          mb={4}
-          isInvalid={!!errors.username}
-        >
+        <FormControl id="username" mb={4} isInvalid={!!errors.username}>
           <FormLabel>Username</FormLabel>
           <Input
             type="text"
@@ -100,7 +95,7 @@ const RegisterForm = () => {
           />
           <FormErrorMessage>{errors.username}</FormErrorMessage>
         </FormControl>
-        <FormControl id="email" isRequired mb={4} isInvalid={!!errors.email}>
+        <FormControl id="email" mb={4} isInvalid={!!errors.email}>
           <FormLabel>Email address</FormLabel>
           <Input
             type="email"
@@ -114,12 +109,7 @@ const RegisterForm = () => {
           />
           <FormErrorMessage>{errors.email}</FormErrorMessage>
         </FormControl>
-        <FormControl
-          id="password"
-          isRequired
-          mb={4}
-          isInvalid={!!errors.password}
-        >
+        <FormControl id="password" mb={4} isInvalid={!!errors.password}>
           <FormLabel>Password</FormLabel>
           <Input
             type="password"
