@@ -1,4 +1,5 @@
 import { useState, FormEvent } from "react";
+import { useRouter } from "next/router";
 import {
   FormControl,
   FormLabel,
@@ -7,7 +8,8 @@ import {
   FormErrorMessage,
   Box,
 } from "@chakra-ui/react";
-
+import axios from "axios";
+import { useAuth } from "@/contexts/authentication";
 export interface FormData {
   username: string;
   email: string;
@@ -32,6 +34,10 @@ const RegisterForm = () => {
     email: "",
     password: "",
   });
+
+  const router = useRouter();
+
+  const { setIsAuthenticated, setAccessToken } = useAuth();
 
   const validateForm = (): boolean => {
     let isValid = true;
@@ -70,11 +76,28 @@ const RegisterForm = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (validateForm()) {
       console.log("Form submitted:", formData);
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/accounts",
+          formData,
+          {
+            withCredentials: true, // Include credentials (cookies)
+          }
+        );
+        const { accessToken } = response?.data || {};
+        if (accessToken) {
+          setAccessToken(accessToken);
+          setIsAuthenticated(true);
+          router.push("/");
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
     }
   };
 
