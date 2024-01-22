@@ -1,5 +1,12 @@
 import { useAuth } from "@/contexts/authentication";
-import { Flex, Heading, Button, HStack, Text } from "@chakra-ui/react";
+import {
+  Flex,
+  Heading,
+  Button,
+  HStack,
+  Text,
+  Box,
+} from "@chakra-ui/react";
 import Link from "next/link";
 const NavBar = () => {
   const { isAuthenticated } = useAuth();
@@ -9,7 +16,16 @@ const NavBar = () => {
         <Heading size="md">Yalsh</Heading>
       </Link>
       {isAuthenticated ? (
-        <Text fontWeight="bold">Profile</Text>
+        <Link href="/profile">
+          <Flex align="center">
+            <AccountIcon />
+            <Box ml={2}>
+              <Text fontSize="sm" fontWeight="bold">
+                Velociraptor
+              </Text>
+            </Box>
+          </Flex>
+        </Link>
       ) : (
         <HStack>
           <Link href="/login">
@@ -44,3 +60,23 @@ const NavBar = () => {
 };
 
 export default NavBar;
+
+const AccountIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-user"
+    >
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  );
+};
