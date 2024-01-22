@@ -1,4 +1,5 @@
 import { useState, FormEvent } from "react";
+import axios from "axios";
 import {
   FormControl,
   FormLabel,
@@ -7,18 +8,20 @@ import {
   FormErrorMessage,
   Box,
 } from "@chakra-ui/react";
-
+import { useAuth } from "@/contexts/authentication";
+import { useRouter } from "next/router";
 export interface FormData {
   email: string;
   password: string;
 }
-
 export interface FormErrors {
   email: string;
   password: string;
 }
 
 const LoginForm = () => {
+  const { setIsAuthenticated, setAuthenticatedLocal } = useAuth();
+  const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
@@ -59,11 +62,28 @@ const LoginForm = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (validateForm()) {
       console.log("Form submitted:", formData);
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/session",
+          formData,
+          {
+            withCredentials: true, // Include credentials (cookies)
+          }
+        );
+        const { authenticated } = response?.data || {};
+        if (authenticated) {
+          setIsAuthenticated(true);
+          setAuthenticatedLocal(true);
+          router.push("/");
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
     }
   };
 
@@ -84,11 +104,7 @@ const LoginForm = () => {
           />
           <FormErrorMessage>{errors.email}</FormErrorMessage>
         </FormControl>
-        <FormControl
-          id="password"
-          mb={4}
-          isInvalid={!!errors.password}
-        >
+        <FormControl id="password" mb={4} isInvalid={!!errors.password}>
           <FormLabel>Password</FormLabel>
           <Input
             type="password"
