@@ -1,40 +1,38 @@
-import axios from "axios";
-import React, { createContext, useState, ReactNode, useContext } from "react";
-
+import React, {
+  createContext,
+  useState,
+  ReactNode,
+  useContext,
+  useEffect,
+} from "react";
+import { useLocalStorage } from "usehooks-ts";
 interface AuthContextProps {
-  isAuthenticated: boolean;
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-  setAccessToken: React.Dispatch<React.SetStateAction<string | null>>;
-  accessToken: string | null;
-  refreshAccessToken: () => void;
+  isAuthenticated: boolean | null;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean | null>>;
+  authenticated: boolean | null;
+  setAuthenticatedLocal: React.Dispatch<React.SetStateAction<boolean | null>>;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 function AuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [authenticated, setAuthenticatedLocal] = useLocalStorage<
+    null | boolean
+  >("authenticated", null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
-  async function refreshAccessToken() {
-    try {
-      const response = await axios.get("http://localhost:3001/refresh", {
-        withCredentials: true,
-      });
-      if (response?.data?.accessToken) {
-        setAccessToken(response.data.accessToken);
-        setIsAuthenticated(true);
-      }
-    } catch (error) {
-      throw error;
+  useEffect(() => {
+    if (authenticated === null) {
+      setAuthenticatedLocal(false);
     }
-  }
+    setIsAuthenticated(authenticated);
+  }, [authenticated, setAuthenticatedLocal]);
 
   const contextValue: AuthContextProps = {
     isAuthenticated,
     setIsAuthenticated,
-    setAccessToken,
-    accessToken,
-    refreshAccessToken,
+    authenticated,
+    setAuthenticatedLocal,
   };
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

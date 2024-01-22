@@ -37,7 +37,7 @@ const RegisterForm = () => {
 
   const router = useRouter();
 
-  const { setIsAuthenticated, setAccessToken } = useAuth();
+  const { setIsAuthenticated, setAuthenticatedLocal } = useAuth();
 
   const validateForm = (): boolean => {
     let isValid = true;
@@ -91,8 +91,8 @@ const RegisterForm = () => {
         );
         const { accessToken } = response?.data || {};
         if (accessToken) {
-          setAccessToken(accessToken);
           setIsAuthenticated(true);
+          setAuthenticatedLocal(true);
           router.push("/");
         }
       } catch (error) {

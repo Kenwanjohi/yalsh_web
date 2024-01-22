@@ -3,36 +3,14 @@ import { useRouter } from "next/router";
 import { useAuth } from "@/contexts/authentication";
 
 const AuthWrapper = ({ children }: { children: ReactNode }) => {
-  const { isAuthenticated, refreshAccessToken, accessToken } = useAuth();
+  const { isAuthenticated } = useAuth();
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!accessToken) {
-      setLoading(true);
-      const checkAuthentication = async () => {
-        try {
-          await refreshAccessToken();
-        } catch (error) {
-          // Maybe show toast
-          console.log(error);
-        } finally {
-          setLoading(false);
-        }
-      };
-      checkAuthentication();
+    if (isAuthenticated !== null && isAuthenticated === false) {
+      router.push("/login");
     }
-  }, [refreshAccessToken, accessToken]);
-
-  useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.push("/register");
-    }
-  }, [isAuthenticated, loading, router]);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  }, [isAuthenticated, router]);
 
   return isAuthenticated ? <>{children}</> : null;
 };
