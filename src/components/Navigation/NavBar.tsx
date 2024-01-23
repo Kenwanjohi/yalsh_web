@@ -1,17 +1,12 @@
 import { useAuth } from "@/contexts/authentication";
-import {
-  Flex,
-  Heading,
-  Button,
-  HStack,
-  Text,
-  Box,
-} from "@chakra-ui/react";
+import { useProfile } from "@/hooks/useProfile";
+import { Flex, Heading, Button, HStack, Text, Box } from "@chakra-ui/react";
 import Link from "next/link";
 const NavBar = () => {
   const { isAuthenticated } = useAuth();
+  const { data: user, isError, isLoading } = useProfile();
   return (
-    <Flex p={4} align="center" justify="space-between" w={"100%"}>
+    <Flex paddingY={4} align="center" justify="space-between" w={"100%"}>
       <Link href="/">
         <Heading size="md">Yalsh</Heading>
       </Link>
@@ -19,11 +14,13 @@ const NavBar = () => {
         <Link href="/profile">
           <Flex align="center">
             <AccountIcon />
-            <Box ml={2}>
-              <Text fontSize="sm" fontWeight="bold">
-                Velociraptor
-              </Text>
-            </Box>
+            {user?.username ? (
+              <Box ml={2}>
+                <Text fontSize="sm" fontWeight="bold">
+                  {user?.username}
+                </Text>
+              </Box>
+            ) : null}
           </Flex>
         </Link>
       ) : (
@@ -59,8 +56,6 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
-
 const AccountIcon = () => {
   return (
     <svg
@@ -80,3 +75,5 @@ const AccountIcon = () => {
     </svg>
   );
 };
+
+export default NavBar;
