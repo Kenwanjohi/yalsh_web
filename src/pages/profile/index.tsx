@@ -2,6 +2,8 @@ import ProfileForm from "@/components/Forms/Profile";
 import NavBar from "@/components/Navigation/NavBar";
 import { useProfile } from "@/hooks/useProfile";
 import { Container, Text, Flex, Button } from "@chakra-ui/react";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const UserProfile = () => {
   return (
@@ -14,6 +16,7 @@ const UserProfile = () => {
 };
 
 const UserProfileHeader = () => {
+  const router = useRouter();
   const { data: user, isLoading, isError } = useProfile();
   if (isError) {
     return null; // Handle effectively
@@ -21,6 +24,25 @@ const UserProfileHeader = () => {
 
   if (isLoading) {
     return null; // Maybe loader
+  }
+
+  async function logout() {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/logout",
+        {},
+        { withCredentials: true }
+      );
+
+      if (response.status === 204) {
+        localStorage.removeItem("authenticated");
+        router.push("/login");
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -46,6 +68,7 @@ const UserProfileHeader = () => {
         fontWeight={"400"}
         variant="outline"
         leftIcon={<LogoutIcon />}
+        onClick={logout}
       >
         Logout
       </Button>
