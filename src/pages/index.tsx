@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/authentication";
 import Landing from "@/layouts/Landing";
 import NavBar from "@/components/Navigation/NavBar";
 import AuthWrapper from "@/components/AuthWrapper/AuthWrapper";
+import HomePage from "@/layouts/Home";
 
 export default function Home() {
   const { isAuthenticated } = useAuth();
@@ -28,7 +29,7 @@ export default function Home() {
         ) : (
           <AuthWrapper>
             <NavBar />
-            <Container>Yay Home!!</Container>
+            <HomePage />
           </AuthWrapper>
         )}
       </Container>
