@@ -1,26 +1,48 @@
+import ShortLinkForm from "@/components/Forms/Link";
+import { LinkItem } from "@/components/Link/LinkItem";
 import {
   Box,
   Flex,
   Button,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
   Text,
   Input,
   IconButton,
   HStack,
   InputGroup,
   InputLeftElement,
+  List,
 } from "@chakra-ui/react";
 // import LinkForm from "./LinkForm";
 import { Plus, Filter, ArrowDownWideNarrow, Search } from "lucide-react";
+
+type LinkType = {
+  id: number;
+  domain: string;
+  url: string;
+};
+
 const HomePage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const totalLinks = 10;
+
+  const sampleLinks: LinkType[] = [
+    {
+      id: 1,
+      domain: "example1.com",
+      url: "https://www.example1.com",
+    },
+    {
+      id: 2,
+      domain: "example2.com",
+      url: "https://blog.platformatic.dev/handling-environment-variables-in-nodejs?utm_content=279281157&utm_medium=social&utm_source=twitter&hss_channel=tw-15979784",
+    },
+    {
+      id: 3,
+      domain: "example3.com",
+      url: "https://www.example3.com",
+    },
+  ];
 
   return (
     <Box py={4} width={"100%"}>
@@ -98,21 +120,14 @@ const HomePage = () => {
         </HStack>
       </Flex>
 
-      <Text mb={4}>
-        Showing {totalLinks} of total links
-      </Text>
+      <Text mb={4}>Showing {totalLinks} of total links</Text>
+      <List spacing={3}>
+        {sampleLinks.map((link) => (
+          <LinkItem key={link.id} link={link} />
+        ))}
+      </List>
 
-      {/* Modal for creating links */}
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create Link</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {/* <LinkForm onClose={onClose} />{" "} */}
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <ShortLinkForm isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 };
