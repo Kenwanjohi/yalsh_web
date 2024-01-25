@@ -31,7 +31,7 @@ const NavBar = () => {
               border="1px"
               borderColor="#333333"
               borderRadius={"unset"}
-              fontSize={"small"}
+              fontSize={"xs"}
               fontWeight={"400"}
               variant="outline"
             >
@@ -43,7 +43,7 @@ const NavBar = () => {
               color="white"
               bgColor="#333333"
               borderRadius={"unset"}
-              fontSize={"small"}
+              fontSize={"xs"}
               fontWeight={"400"}
               _hover={{ bgColor: "black" }}
             >

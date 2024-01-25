@@ -171,7 +171,7 @@ const ProfileForm = () => {
             type="submit"
             color="white"
             bgColor="#333333"
-            fontSize={"small"}
+            fontSize={"xs"}
             fontWeight={"400"}
             _hover={{ bgColor: "black" }}
             mt={4}
@@ -188,7 +188,7 @@ const ProfileForm = () => {
           This irreversible action will permanently delete all associated data.
         </Text>
         <Button
-          fontSize={"small"}
+          fontSize={"xs"}
           fontWeight={"400"}
           mt={4}
           onClick={onOpen}
@@ -219,12 +219,12 @@ const ProfileForm = () => {
 
           <ModalFooter>
             <HStack>
-              <Button fontSize={"small"} fontWeight={"400"} onClick={onClose}>
+              <Button fontSize={"xs"} fontWeight={"400"} onClick={onClose}>
                 Cancel
               </Button>
               <Button
                 colorScheme="red"
-                fontSize={"small"}
+                fontSize={"xs"}
                 fontWeight={"400"}
                 onClick={handleDeleteAccount}
               >

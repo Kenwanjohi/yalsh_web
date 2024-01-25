@@ -150,7 +150,7 @@ const RegisterForm = () => {
           type="submit"
           color="white"
           bgColor="#333333"
-          fontSize={"small"}
+          fontSize={"xs"}
           fontWeight={"400"}
           _hover={{ bgColor: "black" }}
           width="full"

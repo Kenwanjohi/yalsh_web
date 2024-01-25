@@ -65,7 +65,7 @@ const UserProfileHeader = () => {
         bgColor="#ffffff"
         border="1px"
         borderColor="#333333"
-        fontSize={"small"}
+        fontSize={"xs"}
         fontWeight={"400"}
         variant="outline"
         leftIcon={<LogOut size={16} />}

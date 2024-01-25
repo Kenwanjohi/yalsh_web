@@ -9,7 +9,7 @@ export const theme = extendTheme({
   styles: {
     global: {
       body: {
-        fontSize: "sm",
+        fontSize: "xs",
       },
     },
   }

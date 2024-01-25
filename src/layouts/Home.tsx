@@ -42,7 +42,7 @@ const HomePage = () => {
         <Button
           color="white"
           bgColor="#333333"
-          fontSize={"small"}
+          fontSize={"xs"}
           fontWeight={"400"}
           _hover={{ bgColor: "black" }}
           leftIcon={<Plus size={16} />}
@@ -66,7 +66,7 @@ const HomePage = () => {
 
         <HStack spacing={2} display={{ base: "none", md: "flex" }}>
           <Button
-            fontSize={"small"}
+            fontSize={"xs"}
             fontWeight={"400"}
             onClick={onOpen}
             leftIcon={<Filter size={16} />}
@@ -75,7 +75,7 @@ const HomePage = () => {
           </Button>
 
           <Button
-            fontSize={"small"}
+            fontSize={"xs"}
             fontWeight={"400"}
             onClick={onOpen}
             leftIcon={<ArrowDownWideNarrow size={16} />}
@@ -98,7 +98,7 @@ const HomePage = () => {
         </HStack>
       </Flex>
 
-      <Text color="gray.500" mb={4}>
+      <Text mb={4}>
         Showing {totalLinks} of total links
       </Text>
 
