@@ -1,3 +1,4 @@
+import AuthWrapper from "@/components/AuthWrapper/AuthWrapper";
 import ProfileForm from "@/components/Forms/Profile";
 import NavBar from "@/components/Navigation/NavBar";
 import { useProfile } from "@/hooks/useProfile";
@@ -7,11 +8,13 @@ import { LogOut } from "lucide-react";
 import { useRouter } from "next/router";
 const UserProfile = () => {
   return (
-    <Container maxW="container.md" minH={"100vh"}>
-      <NavBar />
-      <UserProfileHeader />
-      <ProfileForm />
-    </Container>
+    <AuthWrapper>
+      <Container maxW="container.md" minH={"100vh"}>
+        <NavBar />
+        <UserProfileHeader />
+        <ProfileForm />
+      </Container>
+    </AuthWrapper>
   );
 };
 
