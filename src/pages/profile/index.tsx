@@ -3,8 +3,8 @@ import NavBar from "@/components/Navigation/NavBar";
 import { useProfile } from "@/hooks/useProfile";
 import { Container, Text, Flex, Button } from "@chakra-ui/react";
 import axios from "axios";
+import { LogOut } from "lucide-react";
 import { useRouter } from "next/router";
-
 const UserProfile = () => {
   return (
     <Container maxW="container.md" minH={"100vh"}>
@@ -49,6 +49,7 @@ const UserProfileHeader = () => {
     <Flex
       align="center"
       justify="space-between"
+      flexWrap="wrap"
       borderBottom="1px solid #e1e1e1"
       mb={10}
       py={2}
@@ -67,33 +68,12 @@ const UserProfileHeader = () => {
         fontSize={"small"}
         fontWeight={"400"}
         variant="outline"
-        leftIcon={<LogoutIcon />}
+        leftIcon={<LogOut size={16} />}
         onClick={logout}
       >
         Logout
       </Button>
     </Flex>
-  );
-};
-
-const LogoutIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="lucide lucide-log-out"
-    >
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-      <polyline points="16 17 21 12 16 7" />
-      <line x1="21" x2="9" y1="12" y2="12" />
-    </svg>
   );
 };
 
