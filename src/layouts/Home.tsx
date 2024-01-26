@@ -83,6 +83,7 @@ const HomePage = () => {
             focusBorderColor="#333333"
             placeholder="Search..."
             mr={2}
+            isDisabled
           />
         </InputGroup>
 
@@ -90,8 +91,8 @@ const HomePage = () => {
           <Button
             fontSize={"xs"}
             fontWeight={"400"}
-            onClick={onOpen}
             leftIcon={<Filter size={16} />}
+            isDisabled
           >
             Filter
           </Button>
@@ -99,8 +100,8 @@ const HomePage = () => {
           <Button
             fontSize={"xs"}
             fontWeight={"400"}
-            onClick={onOpen}
             leftIcon={<ArrowDownWideNarrow size={16} />}
+            isDisabled
           >
             Sort
           </Button>
