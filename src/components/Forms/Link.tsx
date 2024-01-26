@@ -56,18 +56,50 @@ const ShortLinkForm = ({
     let isValid = true;
     const newErrors: FormErrors = { ...errors };
 
+    function isValidHttpUrl(url: string): boolean {
+      let parsedUrl: URL;
+      try {
+        parsedUrl = new URL(url);
+      } catch (error) {
+        return false;
+      }
+      return parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:";
+    }
+
+    if (!formData.url.trim()) {
+      newErrors.url = "URL is required";
+      isValid = false;
+    } else if (!isValidHttpUrl(formData.url.trim())) {
+      newErrors.url = "Invalid URL";
+      isValid = false;
+    }
+
+    if (!formData.key.trim()) {
+      newErrors.key = "Key is required";
+      isValid = false;
+    }
+
     setErrors(newErrors);
     return isValid;
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  function resetFormState() {
+    setFormData({
+      url: "",
+      key: "",
+      expiryDate: "",
+      password: "",
+    });
+  }
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (validateForm()) {
       console.log("Form submitted:", formData);
       try {
@@ -79,6 +111,7 @@ const ShortLinkForm = ({
           }
         );
         console.log(response);
+        resetFormState();
         onClose();
       } catch (error) {
         console.error("Error submitting form:", error);
@@ -97,7 +130,7 @@ const ShortLinkForm = ({
       <ModalContent>
         <ModalHeader>
           <Heading as="h4" fontSize="sm">
-            Create Short Link
+            Create short link
           </Heading>
         </ModalHeader>
         <ModalCloseButton />
@@ -107,7 +140,7 @@ const ShortLinkForm = ({
               <FormControl id="url" mb={4} isInvalid={!!errors.url}>
                 <FormLabel>URL</FormLabel>
                 <Input
-                  type="text"
+                  type="url"
                   placeholder="Enter the URL"
                   name="url"
                   variant="filled"
@@ -136,6 +169,7 @@ const ShortLinkForm = ({
                 id="expiryDate"
                 mb={4}
                 isInvalid={!!errors.expiryDate}
+                isDisabled
               >
                 <FormLabel>Expiry Date</FormLabel>
                 <Input
@@ -149,7 +183,12 @@ const ShortLinkForm = ({
                 />
                 <FormErrorMessage>{errors.expiryDate}</FormErrorMessage>
               </FormControl>
-              <FormControl id="password" mb={4} isInvalid={!!errors.password}>
+              <FormControl
+                id="password"
+                mb={4}
+                isInvalid={!!errors.password}
+                isDisabled
+              >
                 <FormLabel>Password</FormLabel>
                 <Input
                   type="password"
