@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useQuery } from "react-query";
 import ShortLinkForm from "@/components/Forms/Link";
 import { LinkItem } from "@/components/Link/LinkItem";
 import {
@@ -17,33 +19,31 @@ import {
 import { Plus, Filter, ArrowDownWideNarrow, Search } from "lucide-react";
 
 type LinkType = {
-  id: number;
-  domain: string;
+  linkId: number;
   url: string;
+  key: string;
+  clicks: number;
 };
 
 const HomePage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const totalLinks = 10;
+  const { data, isLoading, isError } = useQuery(
+    "links",
+    async function getLinks(): Promise<LinkType[]> {
+      const res = await axios.get("http://localhost:3001/links", {
+        withCredentials: true,
+      });
+      return res.data.links;
+    }
+  );
 
-  const sampleLinks: LinkType[] = [
-    {
-      id: 1,
-      domain: "example1.com",
-      url: "https://www.example1.com",
-    },
-    {
-      id: 2,
-      domain: "example2.com",
-      url: "https://blog.platformatic.dev/handling-environment-variables-in-nodejs?utm_content=279281157&utm_medium=social&utm_source=twitter&hss_channel=tw-15979784",
-    },
-    {
-      id: 3,
-      domain: "example3.com",
-      url: "https://www.example3.com",
-    },
-  ];
+  if (isLoading) {
+    return <div>loading</div>;
+  }
 
+  if (isError) {
+    return <div>An error occured, please retry</div>;
+  }
   return (
     <Box py={4} width={"100%"}>
       <Flex
@@ -121,11 +121,18 @@ const HomePage = () => {
         </HStack>
       </Flex>
 
-      <Text mb={4}>Showing {totalLinks} of total links</Text>
+      {data && data.length ? (
+        <Text mb={4}>
+          Showing {data.length} of {data.length} links
+        </Text>
+      ) : (
+        <Text>No links found</Text>
+      )}
+
       <List spacing={3}>
-        {sampleLinks.map((link) => (
-          <LinkItem key={link.id} link={link} />
-        ))}
+        {data && data.length > 0
+          ? data.map((link) => <LinkItem key={link.linkId} link={link} />)
+          : null}
       </List>
 
       <ShortLinkForm isOpen={isOpen} onClose={onClose} />
