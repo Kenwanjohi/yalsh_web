@@ -136,73 +136,71 @@ const ShortLinkForm = ({
         <ModalCloseButton />
         <form onSubmit={handleSubmit} style={{ maxWidth: "100%" }}>
           <ModalBody>
-            <form onSubmit={handleSubmit} style={{ maxWidth: "100%" }}>
-              <FormControl id="url" mb={4} isInvalid={!!errors.url}>
-                <FormLabel>URL</FormLabel>
-                <Input
-                  type="url"
-                  placeholder="Enter the URL"
-                  name="url"
-                  variant="filled"
-                  background="#EEEEEE"
-                  focusBorderColor="#333333"
-                  value={formData.url}
-                  onChange={handleChange}
-                />
-                <FormErrorMessage>{errors.url}</FormErrorMessage>
-              </FormControl>
-              <FormControl id="key" mb={4} isInvalid={!!errors.key}>
-                <FormLabel>Short Key</FormLabel>
-                <Input
-                  type="text"
-                  placeholder="Enter the short key"
-                  name="key"
-                  variant="filled"
-                  background="#EEEEEE"
-                  focusBorderColor="#333333"
-                  value={formData.key}
-                  onChange={handleChange}
-                />
-                <FormErrorMessage>{errors.key}</FormErrorMessage>
-              </FormControl>
-              <FormControl
-                id="expiryDate"
-                mb={4}
-                isInvalid={!!errors.expiryDate}
-                isDisabled
-              >
-                <FormLabel>Expiry Date</FormLabel>
-                <Input
-                  type="date"
-                  name="expiryDate"
-                  variant="filled"
-                  background="#EEEEEE"
-                  focusBorderColor="#333333"
-                  value={formData.expiryDate}
-                  onChange={handleChange}
-                />
-                <FormErrorMessage>{errors.expiryDate}</FormErrorMessage>
-              </FormControl>
-              <FormControl
-                id="password"
-                mb={4}
-                isInvalid={!!errors.password}
-                isDisabled
-              >
-                <FormLabel>Password</FormLabel>
-                <Input
-                  type="password"
-                  placeholder="Enter a password"
-                  name="password"
-                  variant="filled"
-                  background="#EEEEEE"
-                  focusBorderColor="#333333"
-                  value={formData.password}
-                  onChange={handleChange}
-                />
-                <FormErrorMessage>{errors.password}</FormErrorMessage>
-              </FormControl>
-            </form>
+            <FormControl id="url" mb={4} isInvalid={!!errors.url}>
+              <FormLabel>URL</FormLabel>
+              <Input
+                type="url"
+                placeholder="Enter the URL"
+                name="url"
+                variant="filled"
+                background="#EEEEEE"
+                focusBorderColor="#333333"
+                value={formData.url}
+                onChange={handleChange}
+              />
+              <FormErrorMessage>{errors.url}</FormErrorMessage>
+            </FormControl>
+            <FormControl id="key" mb={4} isInvalid={!!errors.key}>
+              <FormLabel>Short Key</FormLabel>
+              <Input
+                type="text"
+                placeholder="Enter the short key"
+                name="key"
+                variant="filled"
+                background="#EEEEEE"
+                focusBorderColor="#333333"
+                value={formData.key}
+                onChange={handleChange}
+              />
+              <FormErrorMessage>{errors.key}</FormErrorMessage>
+            </FormControl>
+            <FormControl
+              id="expiryDate"
+              mb={4}
+              isInvalid={!!errors.expiryDate}
+              isDisabled
+            >
+              <FormLabel>Expiry Date</FormLabel>
+              <Input
+                type="date"
+                name="expiryDate"
+                variant="filled"
+                background="#EEEEEE"
+                focusBorderColor="#333333"
+                value={formData.expiryDate}
+                onChange={handleChange}
+              />
+              <FormErrorMessage>{errors.expiryDate}</FormErrorMessage>
+            </FormControl>
+            <FormControl
+              id="password"
+              mb={4}
+              isInvalid={!!errors.password}
+              isDisabled
+            >
+              <FormLabel>Password</FormLabel>
+              <Input
+                type="password"
+                placeholder="Enter a password"
+                name="password"
+                variant="filled"
+                background="#EEEEEE"
+                focusBorderColor="#333333"
+                value={formData.password}
+                onChange={handleChange}
+              />
+              <FormErrorMessage>{errors.password}</FormErrorMessage>
+            </FormControl>
           </ModalBody>
           <ModalFooter>
             <HStack>
