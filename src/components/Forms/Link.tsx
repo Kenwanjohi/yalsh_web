@@ -16,7 +16,7 @@ import {
   HStack,
   Heading,
 } from "@chakra-ui/react";
-
+import { useQueryClient } from "react-query";
 export interface FormData {
   url: string;
   key: string;
@@ -38,6 +38,7 @@ const ShortLinkForm = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
+  const queryClient = useQueryClient();
   const [formData, setFormData] = useState<FormData>({
     url: "",
     key: "",
@@ -110,7 +111,7 @@ const ShortLinkForm = ({
             withCredentials: true,
           }
         );
-        console.log(response);
+        queryClient.refetchQueries('links')
         resetFormState();
         onClose();
       } catch (error) {
