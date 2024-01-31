@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useQuery } from "react-query";
 import ShortLinkForm from "@/components/Forms/Link";
 import { LinkItem } from "@/components/Link/LinkItem";
@@ -17,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 // import LinkForm from "./LinkForm";
 import { Plus, Filter, ArrowDownWideNarrow, Search } from "lucide-react";
+import axiosInstance from "@/lib/axios";
 
 type LinkType = {
   linkId: number;
@@ -30,7 +30,7 @@ const HomePage = () => {
   const { data, isLoading, isError } = useQuery(
     "links",
     async function getLinks(): Promise<LinkType[]> {
-      const res = await axios.get("http://localhost:3001/links", {
+      const res = await axiosInstance.get("/links", {
         withCredentials: true,
       });
       return res.data.links;

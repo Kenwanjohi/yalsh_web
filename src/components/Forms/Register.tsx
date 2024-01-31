@@ -8,8 +8,8 @@ import {
   FormErrorMessage,
   Box,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { useAuth } from "@/contexts/authentication";
+import axiosInstance from "@/lib/axios";
 export interface FormData {
   username: string;
   email: string;
@@ -80,17 +80,12 @@ const RegisterForm = () => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Form submitted:", formData);
       try {
-        const response = await axios.post(
-          "http://localhost:3001/accounts",
-          formData,
-          {
-            withCredentials: true, // Include credentials (cookies)
-          }
-        );
-        const { accessToken } = response?.data || {};
-        if (accessToken) {
+        const response = await axiosInstance.post("/accounts", formData, {
+          withCredentials: true,
+        });
+        const { registered } = response?.data || {};
+        if (registered) {
           setIsAuthenticated(true);
           setAuthenticatedLocal(true);
           router.push("/");

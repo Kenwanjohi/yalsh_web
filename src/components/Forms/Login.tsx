@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useAuth } from "@/contexts/authentication";
 import { useRouter } from "next/router";
+import axiosInstance from "@/lib/axios";
 export interface FormData {
   email: string;
   password: string;
@@ -66,15 +67,10 @@ const LoginForm = () => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Form submitted:", formData);
       try {
-        const response = await axios.post(
-          "http://localhost:3001/session",
-          formData,
-          {
-            withCredentials: true, // Include credentials (cookies)
-          }
-        );
+        const response = await axiosInstance.post("/session", formData, {
+          withCredentials: true,
+        });
         const { authenticated } = response?.data || {};
         if (authenticated) {
           setIsAuthenticated(true);

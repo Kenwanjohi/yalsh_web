@@ -19,9 +19,9 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { useQueryClient } from "react-query";
-import axios from "axios";
 import { useRouter } from "next/router";
 import { Trash2 } from "lucide-react";
+import axiosInstance from "@/lib/axios";
 
 export interface FormData {
   username?: string;
@@ -69,13 +69,9 @@ const ProfileForm = () => {
     if (validateForm()) {
       console.log("Form submitted:", formData);
       try {
-        const response = await axios.patch(
-          `http://localhost:3001/accounts/84`,
-          formData,
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axiosInstance.patch(`/accounts/84`, formData, {
+          withCredentials: true,
+        });
         if (response?.data?.updated) {
           queryClient.refetchQueries("profile");
         }
@@ -87,7 +83,7 @@ const ProfileForm = () => {
 
   const handleDeleteAccount = async () => {
     try {
-      const response = await axios.delete(`http://localhost:3001/accounts/83`, {
+      const response = await axiosInstance.delete(`/accounts/83`, {
         withCredentials: true,
       });
       if (response?.data?.deleted) {
@@ -237,6 +233,5 @@ const ProfileForm = () => {
     </Box>
   );
 };
-
 
 export default ProfileForm;

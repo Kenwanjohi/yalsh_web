@@ -2,8 +2,8 @@ import AuthWrapper from "@/components/AuthWrapper/AuthWrapper";
 import ProfileForm from "@/components/Forms/Profile";
 import NavBar from "@/components/Navigation/NavBar";
 import { useProfile } from "@/hooks/useProfile";
+import axiosInstance from "@/lib/axios";
 import { Container, Text, Flex, Button } from "@chakra-ui/react";
-import axios from "axios";
 import { LogOut } from "lucide-react";
 import { useRouter } from "next/router";
 const UserProfile = () => {
@@ -31,8 +31,8 @@ const UserProfileHeader = () => {
 
   async function logout() {
     try {
-      const response = await axios.post(
-        "http://localhost:3001/logout",
+      const response = await axiosInstance.post(
+        "/logout",
         {},
         { withCredentials: true }
       );

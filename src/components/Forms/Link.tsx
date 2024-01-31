@@ -1,5 +1,4 @@
 import { useState, FormEvent } from "react";
-import axios from "axios";
 import {
   FormControl,
   FormLabel,
@@ -17,6 +16,7 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import { useQueryClient } from "react-query";
+import axiosInstance from "@/lib/axios";
 export interface FormData {
   url: string;
   key: string;
@@ -104,14 +104,10 @@ const ShortLinkForm = ({
     if (validateForm()) {
       console.log("Form submitted:", formData);
       try {
-        const response = await axios.post(
-          "http://localhost:3001/links",
-          formData,
-          {
-            withCredentials: true,
-          }
-        );
-        queryClient.refetchQueries('links')
+        const response = await axiosInstance.post("/links", formData, {
+          withCredentials: true,
+        });
+        queryClient.refetchQueries("links");
         resetFormState();
         onClose();
       } catch (error) {
