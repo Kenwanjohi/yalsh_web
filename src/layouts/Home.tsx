@@ -111,12 +111,14 @@ const HomePage = () => {
             aria-label="Filter Links"
             icon={<Filter />}
             onClick={onOpen}
+            isDisabled
           />
 
           <IconButton
             aria-label="Sort Links"
             icon={<ArrowDownWideNarrow />}
             onClick={onOpen}
+            isDisabled
           />
         </HStack>
       </Flex>
