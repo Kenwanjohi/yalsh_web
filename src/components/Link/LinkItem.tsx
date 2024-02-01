@@ -35,6 +35,7 @@ export const LinkItem: React.FC<LinkItemProps> = ({ link }) => {
               icon={<Copy size={14} />}
               variant={"ghost"}
               size="sm"
+              isDisabled
             />
           </HStack>
           <HStack>
