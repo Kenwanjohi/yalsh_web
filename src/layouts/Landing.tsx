@@ -6,6 +6,7 @@ import {
   Text,
   Button,
   IconButton,
+  Link,
 } from "@chakra-ui/react";
 
 export default function Landing() {
@@ -22,18 +23,20 @@ export default function Landing() {
         analytics.
       </Text>
       <HStack mt={6} spacing={4}>
-        <Button
-          color="white"
-          bgColor="#333333"
-          fontSize={"xs"}
-          fontWeight={"400"}
-          _hover={{ bgColor: "black" }}
-        >
-          Get Started
-        </Button>
+        <Link href="/register">
+          <Button
+            color="white"
+            bgColor="#333333"
+            fontSize={"xs"}
+            fontWeight={"400"}
+            _hover={{ bgColor: "black" }}
+          >
+            Get Started
+          </Button>
+        </Link>
         <IconButton
           as="a"
-          href="/"
+          href="https://github.com/Kenwanjohi/yalsh_web"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub"
