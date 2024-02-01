@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import {
   FormControl,
   FormLabel,
@@ -14,9 +14,17 @@ import {
   ModalFooter,
   HStack,
   Heading,
+  IconButton,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import { useQueryClient } from "react-query";
 import axiosInstance from "@/lib/axios";
+import { customAlphabet } from "nanoid";
+import { Shuffle } from "lucide-react";
+const alphabet =
+  "pV9Z7gT4F0vORxbdWkyNUezJawGfs5Dr2cn8BiHmKClojX3ASuqQIY61tEMPhL";
+const randomKey = customAlphabet(alphabet, 8);
 export interface FormData {
   url: string;
   key: string;
@@ -30,7 +38,6 @@ export interface FormErrors {
   expiryDate: string;
   password: string;
 }
-
 const ShortLinkForm = ({
   isOpen,
   onClose,
@@ -46,12 +53,27 @@ const ShortLinkForm = ({
     password: "",
   });
 
+  const [generatedKey, setGeneratedKey] = useState("");
+
   const [errors, setErrors] = useState<FormErrors>({
     url: "",
     key: "",
     expiryDate: "",
     password: "",
   });
+
+  function generateKey() {
+    const key = randomKey();
+    setGeneratedKey(key);
+    setFormData({
+      ...formData,
+      key,
+    });
+  }
+
+  useEffect(() => {
+    generateKey();
+  }, []);
 
   const validateForm = (): boolean => {
     let isValid = true;
@@ -102,14 +124,15 @@ const ShortLinkForm = ({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Form submitted:", formData);
       try {
         const response = await axiosInstance.post("/links", formData, {
           withCredentials: true,
         });
-        queryClient.refetchQueries("links");
-        resetFormState();
-        onClose();
+        if (response.status == 200) {
+          queryClient.refetchQueries("links");
+          resetFormState();
+          onClose();
+        }
       } catch (error) {
         console.error("Error submitting form:", error);
       }
@@ -147,18 +170,30 @@ const ShortLinkForm = ({
               />
               <FormErrorMessage>{errors.url}</FormErrorMessage>
             </FormControl>
+
             <FormControl id="key" mb={4} isInvalid={!!errors.key}>
               <FormLabel>Short Key</FormLabel>
-              <Input
-                type="text"
-                placeholder="Enter the short key"
-                name="key"
-                variant="filled"
-                background="#EEEEEE"
-                focusBorderColor="#333333"
-                value={formData.key}
-                onChange={handleChange}
-              />
+
+              <InputGroup>
+                <Input
+                  type="text"
+                  placeholder="Enter the short key"
+                  name="key"
+                  variant="filled"
+                  background="#EEEEEE"
+                  focusBorderColor="#333333"
+                  value={formData.key || generatedKey}
+                  onChange={handleChange}
+                />
+                <InputRightElement>
+                  <IconButton
+                    variant="ghost"
+                    onClick={generateKey}
+                    aria-label="Shuffle"
+                    icon={<Shuffle />}
+                  />
+                </InputRightElement>
+              </InputGroup>
               <FormErrorMessage>{errors.key}</FormErrorMessage>
             </FormControl>
             <FormControl

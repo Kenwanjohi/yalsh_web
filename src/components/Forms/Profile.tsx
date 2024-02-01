@@ -22,6 +22,7 @@ import { useQueryClient } from "react-query";
 import { useRouter } from "next/router";
 import { Trash2 } from "lucide-react";
 import axiosInstance from "@/lib/axios";
+import { useProfile } from "@/hooks/useProfile";
 
 export interface FormData {
   username?: string;
@@ -40,6 +41,7 @@ export interface FormErrors {
 const ProfileForm = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { data: user, isError, isLoading } = useProfile();
   const [formData, setFormData] = useState<FormData>({});
   const [errors, setErrors] = useState<FormErrors>({});
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -69,9 +71,13 @@ const ProfileForm = () => {
     if (validateForm()) {
       console.log("Form submitted:", formData);
       try {
-        const response = await axiosInstance.patch(`/accounts/84`, formData, {
-          withCredentials: true,
-        });
+        const response = await axiosInstance.patch(
+          `/accounts/${user.userId}`,
+          formData,
+          {
+            withCredentials: true,
+          }
+        );
         if (response?.data?.updated) {
           queryClient.refetchQueries("profile");
         }
@@ -83,7 +89,7 @@ const ProfileForm = () => {
 
   const handleDeleteAccount = async () => {
     try {
-      const response = await axiosInstance.delete(`/accounts/83`, {
+      const response = await axiosInstance.delete(`/accounts/${user.userId}`, {
         withCredentials: true,
       });
       if (response?.data?.deleted) {
