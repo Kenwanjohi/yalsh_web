@@ -1,4 +1,5 @@
-import { useState, FormEvent, useEffect } from "react";
+import { Shuffle } from "lucide-react";
+import React, { ChangeEvent, FormEvent } from "react";
 import {
   FormControl,
   FormLabel,
@@ -18,127 +19,31 @@ import {
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
-import { useQueryClient } from "react-query";
-import axiosInstance from "@/lib/axios";
-import { customAlphabet } from "nanoid";
-import { Shuffle } from "lucide-react";
-const alphabet =
-  "pV9Z7gT4F0vORxbdWkyNUezJawGfs5Dr2cn8BiHmKClojX3ASuqQIY61tEMPhL";
-const randomKey = customAlphabet(alphabet, 8);
-export interface FormData {
-  url: string;
-  key: string;
-  expiryDate: string;
-  password: string;
+
+import { FormData } from "@/layouts/Home";
+import { FormErrors } from "@/layouts/Home";
+
+interface ShortLinkFormProps {
+  isOpen: boolean;
+  formData: FormData;
+  errors: FormErrors;
+  generatedKey: string;
+  onClose: () => void;
+  generateKey: () => void;
+  handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export interface FormErrors {
-  url: string;
-  key: string;
-  expiryDate: string;
-  password: string;
-}
-const ShortLinkForm = ({
+const ShortLinkForm: React.FC<ShortLinkFormProps> = ({
   isOpen,
   onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
+  handleSubmit,
+  handleChange,
+  errors,
+  formData,
+  generateKey,
+  generatedKey,
 }) => {
-  const queryClient = useQueryClient();
-  const [formData, setFormData] = useState<FormData>({
-    url: "",
-    key: "",
-    expiryDate: "",
-    password: "",
-  });
-
-  const [generatedKey, setGeneratedKey] = useState("");
-
-  const [errors, setErrors] = useState<FormErrors>({
-    url: "",
-    key: "",
-    expiryDate: "",
-    password: "",
-  });
-
-  function generateKey() {
-    const key = randomKey();
-    setGeneratedKey(key);
-    setFormData({
-      ...formData,
-      key,
-    });
-  }
-
-  useEffect(() => {
-    generateKey();
-  }, []);
-
-  const validateForm = (): boolean => {
-    let isValid = true;
-    const newErrors: FormErrors = { ...errors };
-
-    function isValidHttpUrl(url: string): boolean {
-      let parsedUrl: URL;
-      try {
-        parsedUrl = new URL(url);
-      } catch (error) {
-        return false;
-      }
-      return parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:";
-    }
-
-    if (!formData.url.trim()) {
-      newErrors.url = "URL is required";
-      isValid = false;
-    } else if (!isValidHttpUrl(formData.url.trim())) {
-      newErrors.url = "Invalid URL";
-      isValid = false;
-    }
-
-    if (!formData.key.trim()) {
-      newErrors.key = "Key is required";
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-    return isValid;
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  function resetFormState() {
-    setFormData({
-      url: "",
-      key: "",
-      expiryDate: "",
-      password: "",
-    });
-  }
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (validateForm()) {
-      try {
-        const response = await axiosInstance.post("/links", formData, {
-          withCredentials: true,
-        });
-        if (response.status == 200) {
-          queryClient.refetchQueries("links");
-          resetFormState();
-          onClose();
-        }
-      } catch (error) {
-        console.error("Error submitting form:", error);
-      }
-    }
-  };
-
   return (
     <Modal
       size={{ base: "sm", sm: "md" }}
