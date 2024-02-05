@@ -140,12 +140,11 @@ const HomePage = () => {
         if (response.status == 200) {
           toast.success("Link successfully created");
           resetFormState();
-          queryClient.refetchQueries("links");
           onClose();
+          queryClient.refetchQueries("links");
         }
       } catch (error) {
         toast.error("Couldn't create link");
-        console.error("Error submitting form:", error);
       }
     }
   };
