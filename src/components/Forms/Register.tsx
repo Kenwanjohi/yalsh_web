@@ -81,9 +81,7 @@ const RegisterForm = () => {
 
     if (validateForm()) {
       try {
-        const response = await axiosInstance.post("/accounts", formData, {
-          withCredentials: true,
-        });
+        const response = await axiosInstance.post("/accounts", formData);
         const { registered } = response?.data || {};
         if (registered) {
           setIsAuthenticated(true);

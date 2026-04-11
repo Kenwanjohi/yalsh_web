@@ -10,6 +10,7 @@ interface ErrorInterceptor {
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  withCredentials: true,
 });
 
 const responseInterceptor: ResponseInterceptor = (response) => response;

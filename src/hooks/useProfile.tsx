@@ -4,9 +4,7 @@ import { useQuery } from "react-query";
 
 export function useProfile() {
   return useQuery("profile", async function getProfile() {
-    const res = await axiosInstance.get("/account", {
-      withCredentials: true,
-    });
+    const res = await axiosInstance.get("/account");
     return res.data;
   });
 }
