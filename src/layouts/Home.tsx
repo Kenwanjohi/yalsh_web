@@ -134,7 +134,11 @@ const HomePage = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await axiosInstance.post("/links", formData, {
+        const payload = {
+          url: formData.url,
+          key: formData.key,
+        };
+        const response = await axiosInstance.post("/links", payload, {
           withCredentials: true,
         });
         if (response.status == 200) {

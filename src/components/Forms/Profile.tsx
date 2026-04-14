@@ -69,11 +69,16 @@ const ProfileForm = () => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Form submitted:", formData);
+      // Filter out empty fields to avoid sending unsupported data to the backend
+      const payload = Object.fromEntries(
+        Object.entries(formData).filter(([_, value]) => value !== undefined && value !== "")
+      );
+
+      console.log("Form submitted payload:", payload);
       try {
         const response = await axiosInstance.patch(
           `/account`,
-          formData,
+          payload,
           {
             withCredentials: true,
           }
