@@ -141,7 +141,7 @@ const HomePage = () => {
         const response = await axiosInstance.post("/links", payload, {
           withCredentials: true,
         });
-        if (response.status == 200) {
+        if (response.status >= 200 && response.status < 300) {
           toast.success("Link successfully created");
           resetFormState();
           onClose();
