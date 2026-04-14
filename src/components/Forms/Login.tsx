@@ -68,9 +68,7 @@ const LoginForm = () => {
 
     if (validateForm()) {
       try {
-        const response = await axiosInstance.post("/session", formData, {
-          withCredentials: true,
-        });
+        const response = await axiosInstance.post("/session", formData);
         const { authenticated } = response?.data || {};
         if (authenticated) {
           setIsAuthenticated(true);

@@ -72,7 +72,7 @@ const ProfileForm = () => {
       console.log("Form submitted:", formData);
       try {
         const response = await axiosInstance.patch(
-          `/accounts/${user.userId}`,
+          `/account`,
           formData,
           {
             withCredentials: true,
@@ -89,7 +89,7 @@ const ProfileForm = () => {
 
   const handleDeleteAccount = async () => {
     try {
-      const response = await axiosInstance.delete(`/accounts/${user.userId}`, {
+      const response = await axiosInstance.delete(`/account`, {
         withCredentials: true,
       });
       if (response?.data?.deleted) {

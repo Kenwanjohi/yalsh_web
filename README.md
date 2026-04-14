@@ -34,7 +34,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Technologies
 
-Here is a list of all the big technologies we use:
+Here is a list of all the big technologies used:
 
 - Next.js 14
 - Chakra UI

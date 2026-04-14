@@ -31,11 +31,7 @@ const UserProfileHeader = () => {
 
   async function logout() {
     try {
-      const response = await axiosInstance.post(
-        "/logout",
-        {},
-        { withCredentials: true }
-      );
+      const response = await axiosInstance.delete("/session");
 
       if (response.status === 204) {
         localStorage.removeItem("authenticated");
