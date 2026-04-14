@@ -27,8 +27,8 @@ export const LinkItem: React.FC<LinkItemProps> = ({ link }) => {
         <Flex justify={'space-between'} flexWrap={'wrap'}>
           <HStack>
             <strong>Short link:</strong>
-            <Link href={`https://yalsh.co/${link.key}`} isExternal>
-              yalsh.co/{link.key}
+            <Link href={`https://yalsh.com/${link.key}`} isExternal>
+              yalsh.com/{link.key}
             </Link>
             <IconButton
               aria-label="Copy Domain"

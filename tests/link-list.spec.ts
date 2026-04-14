@@ -26,8 +26,8 @@ test.describe("Link List Display", () => {
 
   test("should display the list of links", async ({ page }) => {
     // Check for mock links
-    await expect(page.getByText("yalsh.co/goog")).toBeVisible();
-    await expect(page.getByText("yalsh.co/ghub")).toBeVisible();
+    await expect(page.getByText("yalsh.com/goog")).toBeVisible();
+    await expect(page.getByText("yalsh.com/ghub")).toBeVisible();
 
     // Check for click counts
     await expect(page.getByText("15 clicks")).toBeVisible();
