@@ -9,6 +9,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { Copy, Pencil, QrCode, Trash2, BarChart } from "lucide-react";
+import { toast } from "sonner";
 
 type LinkType = {
   linkId: number;
@@ -21,21 +22,32 @@ interface LinkItemProps {
   link: LinkType;
 }
 export const LinkItem: React.FC<LinkItemProps> = ({ link }) => {
+  const shortUrl = `https://yalsh.com/${link.key}`;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(shortUrl);
+      toast.success("Link copied to clipboard");
+    } catch (err) {
+      toast.error("Failed to copy link");
+    }
+  };
+
   return (
     <ListItem key={link.linkId} p={4} borderRadius="md" borderWidth="1px">
       <Box>
         <Flex justify={'space-between'} flexWrap={'wrap'}>
           <HStack>
             <strong>Short link:</strong>
-            <Link href={`https://yalsh.com/${link.key}`} isExternal>
+            <Link href={shortUrl} isExternal>
               yalsh.com/{link.key}
             </Link>
             <IconButton
-              aria-label="Copy Domain"
+              aria-label="Copy Link"
               icon={<Copy size={14} />}
               variant={"ghost"}
               size="sm"
-              isDisabled
+              onClick={handleCopy}
             />
           </HStack>
           <HStack>
@@ -45,7 +57,7 @@ export const LinkItem: React.FC<LinkItemProps> = ({ link }) => {
         </Flex>
         <Flex  >
           <strong>URL:</strong>
-          <Text isTruncated>
+          <Text isTruncated ml={2}>
             <Link
               href={link.url}
               isExternal
